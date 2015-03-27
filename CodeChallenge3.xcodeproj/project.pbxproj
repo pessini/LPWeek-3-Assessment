@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		56D1B62E1AC59EF000A8921F /* DivvyStation.m in Sources */ = {isa = PBXBuildFile; fileRef = 56D1B62D1AC59EF000A8921F /* DivvyStation.m */; };
 		938C35E919F02E16000F4F50 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 938C35E819F02E16000F4F50 /* main.m */; };
 		938C35EC19F02E16000F4F50 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 938C35EB19F02E16000F4F50 /* AppDelegate.m */; };
 		938C35F219F02E16000F4F50 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 938C35F019F02E16000F4F50 /* Main.storyboard */; };
@@ -29,6 +30,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		56D1B62C1AC59EF000A8921F /* DivvyStation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivvyStation.h; sourceTree = "<group>"; };
+		56D1B62D1AC59EF000A8921F /* DivvyStation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DivvyStation.m; sourceTree = "<group>"; };
 		938C35E319F02E16000F4F50 /* CodeChallenge3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CodeChallenge3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		938C35E719F02E16000F4F50 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		938C35E819F02E16000F4F50 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -66,6 +69,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		56D1B62B1AC59D7100A8921F /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				938C360C19F02F62000F4F50 /* StationsListViewController.h */,
+				938C360D19F02F62000F4F50 /* StationsListViewController.m */,
+				938C360F19F02F6E000F4F50 /* MapViewController.h */,
+				938C361019F02F6E000F4F50 /* MapViewController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		56D1B62F1AC59EF500A8921F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				56D1B62C1AC59EF000A8921F /* DivvyStation.h */,
+				56D1B62D1AC59EF000A8921F /* DivvyStation.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		938C35DA19F02E16000F4F50 = {
 			isa = PBXGroup;
 			children = (
@@ -88,13 +111,11 @@
 		938C35E519F02E16000F4F50 /* CodeChallenge3 */ = {
 			isa = PBXGroup;
 			children = (
-				938C35EB19F02E16000F4F50 /* AppDelegate.m */,
-				938C360C19F02F62000F4F50 /* StationsListViewController.h */,
-				938C360D19F02F62000F4F50 /* StationsListViewController.m */,
-				938C360F19F02F6E000F4F50 /* MapViewController.h */,
-				938C361019F02F6E000F4F50 /* MapViewController.m */,
 				938C35EA19F02E16000F4F50 /* AppDelegate.h */,
+				938C35EB19F02E16000F4F50 /* AppDelegate.m */,
 				938C35F019F02E16000F4F50 /* Main.storyboard */,
+				56D1B62F1AC59EF500A8921F /* Model */,
+				56D1B62B1AC59D7100A8921F /* Controller */,
 				938C35F319F02E16000F4F50 /* Images.xcassets */,
 				938C35F519F02E16000F4F50 /* LaunchScreen.xib */,
 				938C35E619F02E16000F4F50 /* Supporting Files */,
@@ -231,6 +252,7 @@
 				938C360E19F02F62000F4F50 /* StationsListViewController.m in Sources */,
 				938C35EC19F02E16000F4F50 /* AppDelegate.m in Sources */,
 				938C35E919F02E16000F4F50 /* main.m in Sources */,
+				56D1B62E1AC59EF000A8921F /* DivvyStation.m in Sources */,
 				938C361119F02F6E000F4F50 /* MapViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -424,6 +446,7 @@
 				938C360819F02E16000F4F50 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		938C360919F02E16000F4F50 /* Build configuration list for PBXNativeTarget "CodeChallenge3Tests" */ = {
 			isa = XCConfigurationList;
@@ -432,6 +455,7 @@
 				938C360B19F02E16000F4F50 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -7,19 +7,26 @@
 //
 
 #import "StationsListViewController.h"
+#import "DivvyStation.h"
+#import "MapViewController.h"
 
 @interface StationsListViewController () <UITabBarDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
+@property NSMutableArray *stationsArray;
 
 @end
 
 @implementation StationsListViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+
+    // get data from DivvyStation Class
+    self.stationsArray = [DivvyStation divvyStationsArray];
+
 }
 
 
@@ -27,15 +34,27 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // TODO:
-    return 1;
+    return self.stationsArray.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
-    // TODO:
+    DivvyStation *station = [self.stationsArray objectAtIndex:indexPath.row];
+    cell.textLabel.text = station.stationName;
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"Available bikes: %@", station.availableBikes];
     return cell;
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(UITableViewCell *)cell
+{
+    if ([segue.identifier isEqualToString:@"ToMapSegue"])
+    {
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+        MapViewController *mapVC = segue.destinationViewController;
+        DivvyStation *station = [self.stationsArray objectAtIndex:indexPath.row];
+        mapVC.divvyStation = station;
+    }
 }
 
 @end
