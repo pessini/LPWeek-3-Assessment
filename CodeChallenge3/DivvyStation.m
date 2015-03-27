@@ -20,17 +20,18 @@
         self.latitude = dictionary[@"latitude"];
         self.longitude = dictionary[@"longitude"];
 
-        double lat = [dictionary[@"latitude"] doubleValue];
-        double lon;
+        double latitude = [dictionary[@"latitude"] doubleValue];
+        double longitude;
 
         if ([dictionary[@"longitude"] doubleValue] > 0)
         {
-            lon = -[dictionary[@"longitude"] doubleValue];
+            longitude = -[dictionary[@"longitude"] doubleValue];
         }
         else {
-            lon = [dictionary[@"longitude"]doubleValue];
+            longitude = [dictionary[@"longitude"]doubleValue];
         }
-        self.coordinate = CLLocationCoordinate2DMake(lat, lon);
+        self.annotation = [MKPointAnnotation new];
+        self.annotation.coordinate = CLLocationCoordinate2DMake(latitude, longitude);
     }
     return self;
 }
@@ -38,6 +39,7 @@
 +(NSMutableArray *)divvyStationsArray
 {
     NSMutableArray *pinArray = [NSMutableArray new];
+
     NSString *string = [NSString stringWithFormat:@"http://www.divvybikes.com/stations/json/"];
     NSURL *url = [NSURL URLWithString:string];
     NSData *data = [NSData dataWithContentsOfURL:url];
@@ -47,11 +49,26 @@
     }
     NSDictionary *mapDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
     NSArray *mapArray = mapDict[@"stationBeanList"];
-    for (NSDictionary *stations in mapArray) {
+    for (NSDictionary *stations in mapArray)
+    {
         DivvyStation *divvyStation = [[DivvyStation alloc] initWithDictionary:stations];
         [pinArray addObject:divvyStation];
     }
     return pinArray;
+}
+
+- (void)searchWithKeyword:(NSString *)keyword withCompletionHandler:(void (^)(NSMutableArray *searchArray))completionHandler
+{
+    NSMutableArray *searchResult = [NSMutableArray new];
+    NSMutableArray *arrayWithValues = [DivvyStation divvyStationsArray];
+    for (DivvyStation *stations in arrayWithValues)
+    {
+        if ([stations.stationName rangeOfString:keyword].location != NSNotFound)
+        {
+            [searchResult addObject:stations];
+        }
+    }
+    completionHandler(searchResult);
 }
 
 @end

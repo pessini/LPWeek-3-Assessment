@@ -10,11 +10,13 @@
 #import "DivvyStation.h"
 #import "MapViewController.h"
 
-@interface StationsListViewController () <UITabBarDelegate, UITableViewDataSource>
+@interface StationsListViewController () <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
 @property NSMutableArray *stationsArray;
+@property NSMutableArray *searchStationNames;
+@property DivvyStation *stations;
 
 @end
 
@@ -24,9 +26,12 @@
 {
     [super viewDidLoad];
 
+    // Search Bar
+    self.searchBar.delegate = self;
+
     // get data from DivvyStation Class
     self.stationsArray = [DivvyStation divvyStationsArray];
-
+    self.stations = [DivvyStation new];
 }
 
 
@@ -46,6 +51,21 @@
     return cell;
 }
 
+#pragma mark - Search Bar
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    if ([searchText length] > 0)
+    {
+        [self.stations searchWithKeyword:searchText withCompletionHandler:^(NSMutableArray *searchArray) {
+            self.stationsArray = searchArray;
+            [self.tableView reloadData];
+        }];
+    }
+}
+
+#pragma mark - Segue
+
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(UITableViewCell *)cell
 {
     if ([segue.identifier isEqualToString:@"ToMapSegue"])
@@ -53,6 +73,7 @@
         NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
         MapViewController *mapVC = segue.destinationViewController;
         DivvyStation *station = [self.stationsArray objectAtIndex:indexPath.row];
+
         mapVC.divvyStation = station;
     }
 }

@@ -75,7 +75,7 @@
             </objects>
             <point key="canvasLocation" x="1084" y="339"/>
         </scene>
-        <!--Map View Controller-->
+        <!--Title-->
         <scene sceneID="IV6-L6-c4w">
             <objects>
                 <viewController id="ZMW-PU-gdT" customClass="MapViewController" sceneMemberID="viewController">
@@ -102,6 +102,7 @@
                             <constraint firstItem="B6y-sX-zOv" firstAttribute="top" secondItem="YIn-dz-STz" secondAttribute="bottom" id="mRm-HD-Yg3"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Title" id="mU8-i6-tI3"/>
                     <connections>
                         <outlet property="mapView" destination="YIn-dz-STz" id="Mxo-un-7rg"/>
                     </connections>

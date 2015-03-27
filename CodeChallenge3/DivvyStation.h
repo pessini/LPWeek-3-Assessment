@@ -19,14 +19,12 @@
 @property NSString *statusValue;
 
 
-
 @property MKPointAnnotation *annotation;
-@property NSMutableArray *pinArray;
 
-@property NSString *direction;
-@property NSString *intermodal;
+@property NSMutableArray *pinArray;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 + (NSMutableArray *)divvyStationsArray;
+- (void)searchWithKeyword:(NSString *)keyword withCompletionHandler:(void (^)(NSMutableArray *searchArray))completionHandler;
 
 @end
