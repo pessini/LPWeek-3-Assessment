@@ -19,7 +19,6 @@
 @property NSMutableArray *searchStationNames;
 @property DivvyStation *stations;
 @property CLLocationManager *locationManager;
-
 @property CLLocation *userLocation;
 
 @end
@@ -59,7 +58,15 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
     DivvyStation *station = [self.stationsArray objectAtIndex:indexPath.row];
     cell.textLabel.text = station.stationName;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"Available bikes: %@", station.availableBikes];
+
+    if (station.stationDistance)
+    {
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"Available bikes: %@ - %.2f m", station.availableBikes, station.stationDistance];
+    }
+    else
+    {
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"Available bikes: %@", station.availableBikes];
+    }
     return cell;
 }
 
@@ -120,10 +127,23 @@
         {
             // Location Found
             self.userLocation = location;
+            [self findStationDistanceFromUser];
             [self.locationManager stopUpdatingLocation];
             break;
         }
     }
+}
+
+-(void)findStationDistanceFromUser
+{
+    for (DivvyStation *station in self.stationsArray)
+    {
+        station.stationDistance = [station.stationLocation distanceFromLocation:self.userLocation];
+    }
+    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"stationDistance" ascending:YES];
+    NSArray *sorted = [self.stationsArray sortedArrayUsingDescriptors:[NSArray arrayWithObject:sort]];
+    self.stationsArray = [NSMutableArray arrayWithArray:sorted];
+    [self.tableView reloadData];
 }
 
 #pragma mark - Segue

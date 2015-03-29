@@ -30,6 +30,8 @@
         else {
             longitude = [dictionary[@"longitude"]doubleValue];
         }
+
+        self.stationLocation = [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];
         self.annotation = [MKPointAnnotation new];
         self.annotation.coordinate = CLLocationCoordinate2DMake(latitude, longitude);
     }
