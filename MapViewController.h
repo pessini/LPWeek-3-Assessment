@@ -12,5 +12,6 @@
 @interface MapViewController : UIViewController
 
 @property DivvyStation *divvyStation;
+@property CLLocation *userLocation;
 
 @end

@@ -23,6 +23,7 @@
 
     self.navigationItem.title = self.divvyStation.stationName;
     [self.mapView addAnnotation:self.divvyStation.annotation];
+    self.mapView.showsUserLocation = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -34,7 +35,14 @@
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
 {
+
+    if (annotation == mapView.userLocation)
+    {
+        return nil;
+    }
+
     self.divvyStation.annotation = annotation;
+
     MKPinAnnotationView *pin = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:nil];
     pin.canShowCallout = YES;
     self.divvyStation.annotation.title = self.divvyStation.stationName;

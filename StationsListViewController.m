@@ -155,8 +155,8 @@
         NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
         MapViewController *mapVC = segue.destinationViewController;
         DivvyStation *station = [self.stationsArray objectAtIndex:indexPath.row];
-
         mapVC.divvyStation = station;
+        mapVC.userLocation = self.userLocation;
     }
 }
 
