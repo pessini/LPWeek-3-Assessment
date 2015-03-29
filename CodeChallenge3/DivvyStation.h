@@ -20,11 +20,9 @@
 
 
 @property MKPointAnnotation *annotation;
-
 @property NSMutableArray *pinArray;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 + (NSMutableArray *)divvyStationsArray;
-- (void)searchWithKeyword:(NSString *)keyword withCompletionHandler:(void (^)(NSMutableArray *searchArray))completionHandler;
 
 @end

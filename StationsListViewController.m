@@ -29,9 +29,14 @@
     // Search Bar
     self.searchBar.delegate = self;
 
-    // get data from DivvyStation Class
-    self.stationsArray = [DivvyStation divvyStationsArray];
+    // initialize DivvyStation class
     self.stations = [DivvyStation new];
+    self.stationsArray = [NSMutableArray new];
+    
+    // get data from DivvyStation Class and put in stationsArray
+    // and searchStationNames
+    self.stationsArray = [DivvyStation divvyStationsArray];
+    self.searchStationNames = [[NSMutableArray alloc] initWithArray:self.stationsArray];
 }
 
 
@@ -51,18 +56,32 @@
     return cell;
 }
 
-#pragma mark - Search Bar
+#pragma mark - Search Bar Delegate
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     if ([searchText length] > 0)
     {
-        [self.stations searchWithKeyword:searchText withCompletionHandler:^(NSMutableArray *searchArray) {
-            self.stationsArray = searchArray;
-            [self.tableView reloadData];
-        }];
+        [self.stationsArray removeAllObjects];
+
+        for (DivvyStation *stations in self.searchStationNames)
+        {
+            if ([[stations.stationName uppercaseString] rangeOfString:[searchText uppercaseString]].location != NSNotFound)
+            {
+                [self.stationsArray addObject:stations];
+
+            }
+        }
+
+        [self.tableView reloadData];
+    }
+    else
+    {
+        self.stationsArray = [NSMutableArray arrayWithArray:self.searchStationNames];
+        [self.tableView reloadData];
     }
 }
+
 
 #pragma mark - Segue
 

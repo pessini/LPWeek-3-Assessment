@@ -57,18 +57,4 @@
     return pinArray;
 }
 
-- (void)searchWithKeyword:(NSString *)keyword withCompletionHandler:(void (^)(NSMutableArray *searchArray))completionHandler
-{
-    NSMutableArray *searchResult = [NSMutableArray new];
-    NSMutableArray *arrayWithValues = [DivvyStation divvyStationsArray];
-    for (DivvyStation *stations in arrayWithValues)
-    {
-        if ([stations.stationName rangeOfString:keyword].location != NSNotFound)
-        {
-            [searchResult addObject:stations];
-        }
-    }
-    completionHandler(searchResult);
-}
-
 @end
