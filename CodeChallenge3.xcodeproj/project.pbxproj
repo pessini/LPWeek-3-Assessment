@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		56676E9B1AC890C10049EA9F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56676E9A1AC890C10049EA9F /* CoreLocation.framework */; };
 		56D1B62E1AC59EF000A8921F /* DivvyStation.m in Sources */ = {isa = PBXBuildFile; fileRef = 56D1B62D1AC59EF000A8921F /* DivvyStation.m */; };
 		938C35E919F02E16000F4F50 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 938C35E819F02E16000F4F50 /* main.m */; };
 		938C35EC19F02E16000F4F50 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 938C35EB19F02E16000F4F50 /* AppDelegate.m */; };
@@ -30,6 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		56676E9A1AC890C10049EA9F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		56D1B62C1AC59EF000A8921F /* DivvyStation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivvyStation.h; sourceTree = "<group>"; };
 		56D1B62D1AC59EF000A8921F /* DivvyStation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DivvyStation.m; sourceTree = "<group>"; };
 		938C35E319F02E16000F4F50 /* CodeChallenge3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CodeChallenge3.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -55,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				56676E9B1AC890C10049EA9F /* CoreLocation.framework in Frameworks */,
 				938C361319F03387000F4F50 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -69,13 +72,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		56D1B62B1AC59D7100A8921F /* Controller */ = {
+		56676E9C1AC890CA0049EA9F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				56676E9A1AC890C10049EA9F /* CoreLocation.framework */,
+				938C361219F03387000F4F50 /* MapKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		56676E9D1AC890E10049EA9F /* Station List */ = {
 			isa = PBXGroup;
 			children = (
 				938C360C19F02F62000F4F50 /* StationsListViewController.h */,
 				938C360D19F02F62000F4F50 /* StationsListViewController.m */,
+			);
+			name = "Station List";
+			sourceTree = "<group>";
+		};
+		56676E9E1AC890EA0049EA9F /* Map */ = {
+			isa = PBXGroup;
+			children = (
 				938C360F19F02F6E000F4F50 /* MapViewController.h */,
 				938C361019F02F6E000F4F50 /* MapViewController.m */,
+			);
+			name = Map;
+			sourceTree = "<group>";
+		};
+		56D1B62B1AC59D7100A8921F /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				56676E9D1AC890E10049EA9F /* Station List */,
+				56676E9E1AC890EA0049EA9F /* Map */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -92,10 +120,10 @@
 		938C35DA19F02E16000F4F50 = {
 			isa = PBXGroup;
 			children = (
-				938C361219F03387000F4F50 /* MapKit.framework */,
 				938C35E519F02E16000F4F50 /* CodeChallenge3 */,
 				938C35FF19F02E16000F4F50 /* CodeChallenge3Tests */,
 				938C35E419F02E16000F4F50 /* Products */,
+				56676E9C1AC890CA0049EA9F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};

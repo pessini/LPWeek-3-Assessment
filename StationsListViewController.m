@@ -9,14 +9,18 @@
 #import "StationsListViewController.h"
 #import "DivvyStation.h"
 #import "MapViewController.h"
+#import <CoreLocation/CoreLocation.h>
 
-@interface StationsListViewController () <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
+@interface StationsListViewController () <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, CLLocationManagerDelegate>
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
 @property NSMutableArray *stationsArray;
 @property NSMutableArray *searchStationNames;
 @property DivvyStation *stations;
+@property CLLocationManager *locationManager;
+
+@property CLLocation *userLocation;
 
 @end
 
@@ -25,6 +29,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    // CLLocationManager
+    [self loadUserLocation];
 
     // Search Bar
     self.searchBar.delegate = self;
@@ -82,6 +89,42 @@
     }
 }
 
+#pragma mark - LocationManager
+
+- (void)loadUserLocation
+{
+    self.locationManager = [CLLocationManager new];
+    self.locationManager.delegate = self;
+    [self.locationManager requestWhenInUseAuthorization];
+    [self.locationManager startUpdatingLocation];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+{
+    if (error)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops!"
+                                                        message:@"Please check yoru settings to make sure you enabled sharing your location"
+                                                       delegate:self
+                                              cancelButtonTitle:@"Dismiss"
+                                              otherButtonTitles:nil];
+        [alert show];
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
+{
+    for (CLLocation *location in locations)
+    {
+        if (location.horizontalAccuracy < 1000 && location.verticalAccuracy < 1000)
+        {
+            // Location Found
+            self.userLocation = location;
+            [self.locationManager stopUpdatingLocation];
+            break;
+        }
+    }
+}
 
 #pragma mark - Segue
 

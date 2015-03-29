@@ -17,6 +17,7 @@
 @property NSString *stationAddress;
 @property NSString *availableBikes;
 @property NSString *statusValue;
+@property CLLocationDistance locationDistance;
 
 
 @property MKPointAnnotation *annotation;
