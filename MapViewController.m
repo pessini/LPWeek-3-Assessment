@@ -12,6 +12,10 @@
 @interface MapViewController () <MKMapViewDelegate>
 
 @property (strong, nonatomic) IBOutlet MKMapView *mapView;
+@property MKRoute *destinationRoute;
+@property CLPlacemark *destinationPlacemark;
+@property NSTimeInterval timeToLocation;
+@property NSMutableString *directionSting;
 
 @end
 
@@ -24,6 +28,7 @@
     self.navigationItem.title = self.divvyStation.stationName;
     [self.mapView addAnnotation:self.divvyStation.annotation];
     self.mapView.showsUserLocation = YES;
+    [self scaleMapToASpanFromLatitudade:.05 andLongitude:.05];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -51,11 +56,24 @@
     return pin;
 }
 
+-(void)scaleMapToASpanFromLatitudade:(CLLocationDegrees)latidude andLongitude:(CLLocationDegrees)longitude
+{
+    CLLocationCoordinate2D centerCoordinate = self.divvyStation.annotation.coordinate;
+
+    MKCoordinateSpan coordinateSpan;
+    coordinateSpan.latitudeDelta = latidude;
+    coordinateSpan.longitudeDelta = longitude;
+
+    MKCoordinateRegion region;
+    region.center = centerCoordinate;
+    region.span = coordinateSpan;
+
+    [self.mapView setRegion:region animated:YES];
+}
+
 -(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
-    // alert with the route
 
-    /*
     CLLocationCoordinate2D pin = view.annotation.coordinate;
     MKDirectionsRequest *request = [MKDirectionsRequest new];
     request.source = [MKMapItem mapItemForCurrentLocation];
@@ -64,17 +82,20 @@
     MKMapItem *destItem = [[MKMapItem alloc] initWithPlacemark:placemark];
     request.destination = destItem;
 
+    [self getDirectionsTo:destItem];
+
     MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
     [directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
-        if (error) {
+        if (error)
+        {
             NSLog(@"Error: %@", error.localizedDescription);
-        } else {
+        }
+        else
+        {
             self.destinationRoute = response.routes.lastObject;
             [self.mapView addOverlay:self.destinationRoute.polyline level:MKOverlayLevelAboveRoads];
         }
     }];
-     
-     */
 }
 
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay
@@ -83,7 +104,7 @@
     {
         MKPolyline *route = overlay;
         MKPolylineRenderer *rendered = [[MKPolylineRenderer alloc] initWithPolyline:route];
-        rendered.strokeColor = [UIColor colorWithRed:0.99 green:0.55 blue:0.31 alpha:1.00];
+        rendered.strokeColor = [UIColor redColor];
         rendered.lineWidth = 5.0;
         return rendered;
     }
@@ -91,6 +112,35 @@
     {
         return nil;
     }
+}
+
+- (void)getDirectionsTo:(MKMapItem *)destinationItem
+{
+    MKDirectionsRequest *request = [MKDirectionsRequest new];
+    request.source = [MKMapItem mapItemForCurrentLocation];
+    request.destination = destinationItem;
+    request.transportType = MKDirectionsTransportTypeWalking;
+    MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
+    [directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error)
+    {
+        MKRoute *route = response.routes.firstObject;
+        NSMutableString *directionString = [NSMutableString new];
+        int counter = 1;
+        for (MKRouteStep *step in route.steps)
+        {
+            [directionString appendFormat:@"%d: %@\n", counter, step.instructions];
+            counter++;
+        }
+        // Show Alert with Instructions
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Route Instructions"
+                                                        message:directionString
+                                                       delegate:self
+                                              cancelButtonTitle:@"Thanks"
+                                              otherButtonTitles:nil];
+        [self scaleMapToASpanFromLatitudade:.02 andLongitude:.02];
+        [alert show];
+    }];
+    
 }
 
 @end
